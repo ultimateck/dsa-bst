@@ -7,6 +7,7 @@ public class HelloWorld {
 		
 		System.out.println("Hello World Git");
 		System.out.println("Just Installed GIT");
+		System.out.println("Commited and Pushed from Eclipse");
 
 	}
 
