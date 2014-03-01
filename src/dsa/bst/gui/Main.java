@@ -9,8 +9,10 @@ import javax.swing.JButton;
 import javax.swing.LayoutStyle.ComponentPlacement;
 import javax.swing.JLabel;
 import java.awt.Font;
+import java.awt.event.ActionListener;
+import java.awt.event.ActionEvent;
 
-public class Main {
+public class Main extends JFrame{
 
 	private JFrame frmBooksStore;
 
@@ -47,10 +49,24 @@ public class Main {
 		frmBooksStore.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		
 		JButton btnInsertABook = new JButton("Insert a Book");
+		btnInsertABook.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				
+				//
+				
+			}
+		});
 		
 		JButton btnDeleteABook = new JButton("Print");
 		
 		JButton btnSearchABook = new JButton("Search a Book");
+		btnSearchABook.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				
+				SearchBook searchBook = new SearchBook();
+				searchBook.setVisible(true);
+			}
+		});
 		
 		JButton btnDeleteABook_1 = new JButton("Delete a Book");
 		
