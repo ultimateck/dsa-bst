@@ -52,7 +52,8 @@ public class Main extends JFrame{
 		btnInsertABook.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				
-				//
+				AddBook addBook  = new AddBook();
+				addBook.setVisible(true);
 				
 			}
 		});
@@ -69,6 +70,12 @@ public class Main extends JFrame{
 		});
 		
 		JButton btnDeleteABook_1 = new JButton("Delete a Book");
+		btnDeleteABook_1.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				Delete delete = new Delete();
+				delete.setVisible(true);
+			}
+		});
 		
 		JLabel lblBooksStore = new JLabel("Books Store");
 		lblBooksStore.setFont(new Font("Tahoma", Font.BOLD, 15));
