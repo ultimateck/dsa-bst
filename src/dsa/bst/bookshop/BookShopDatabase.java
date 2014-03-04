@@ -38,7 +38,7 @@ public class BookShopDatabase implements DatabaseTree {
 	@Override
 	public Object delete(String key) throws NotFoundException {
 		BSTNode del;
-		if((del = findBook(key, root)).isEmpty())
+		if((del = findBook(key, root)) == null)
 			throw new NotFoundException();
 		else
 			root = removeBook(key, root);
@@ -53,7 +53,7 @@ public class BookShopDatabase implements DatabaseTree {
 		
 		BSTNode searchnode = findBook(key,root);
 		if(searchnode.isEmpty())
-			throw new NotFoundException();
+			throw new NotFoundException(key);
 		
 		return searchnode.getContent();
 
@@ -63,7 +63,7 @@ public class BookShopDatabase implements DatabaseTree {
 		BSTNode searchnode = inOrderRetrieve(root, null, isbn);
 		
 		if (searchnode == null)
-			throw new NotFoundException();
+			throw new NotFoundException(isbn + "");
 		else
 			return searchnode.getContent();
 	}
@@ -87,7 +87,7 @@ public class BookShopDatabase implements DatabaseTree {
 	
 	private BSTNode findBook(String title, BSTNode node){
 		
-		if(node.isEmpty())
+		if(node == null || node.isEmpty())
 			return node;
 		else if (node.getContent().getTitle().compareTo(title) == 0)
 			return node;
