@@ -3,9 +3,9 @@ package dsa.bst.exceptions;
 @SuppressWarnings("serial")
 public class NotFoundException extends Exception {
 	
-	NotFoundException(){}
+	public NotFoundException(){}
 	
-	NotFoundException(String s){
+	public NotFoundException(String s){
 		super(s);
     }
 

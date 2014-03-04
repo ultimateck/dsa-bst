@@ -13,11 +13,13 @@ import javax.swing.JLabel;
 import java.awt.Font;
 import javax.swing.JRadioButton;
 import javax.swing.JButton;
+import javax.swing.ButtonGroup;
 
 public class Delete extends JFrame {
 
 	private JPanel contentPane;
 	private JTextField textField;
+	private final ButtonGroup buttonGroup = new ButtonGroup();
 
 	/**
 	 * Launch the application.
@@ -56,8 +58,10 @@ public class Delete extends JFrame {
 		lblSearch.setFont(new Font("Tahoma", Font.PLAIN, 14));
 		
 		JRadioButton rdbtnByName = new JRadioButton("By Name");
+		buttonGroup.add(rdbtnByName);
 		
 		JRadioButton rdbtnByIsbn = new JRadioButton("By ISBN");
+		buttonGroup.add(rdbtnByIsbn);
 		
 		JButton btnFindAndDelete = new JButton("Find and Delete");
 		GroupLayout gl_contentPane = new GroupLayout(contentPane);

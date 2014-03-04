@@ -15,11 +15,13 @@ import javax.swing.LayoutStyle.ComponentPlacement;
 import java.awt.Font;
 import javax.swing.JRadioButton;
 import javax.swing.JButton;
+import javax.swing.ButtonGroup;
 
 public class SearchBook extends JFrame {
 
 	private JPanel contentPane;
 	private JTextField textField;
+	private final ButtonGroup buttonGroup = new ButtonGroup();
 
 	/**
 	 * Launch the application.
@@ -55,8 +57,10 @@ public class SearchBook extends JFrame {
 		lblSearch.setFont(new Font("Tahoma", Font.PLAIN, 14));
 		
 		JRadioButton rdbtnByName = new JRadioButton("By Name");
+		buttonGroup.add(rdbtnByName);
 		
 		JRadioButton rdbtnByIsbn = new JRadioButton("By ISBN");
+		buttonGroup.add(rdbtnByIsbn);
 		
 		JLabel lblSearchABook = new JLabel("Search A Book");
 		lblSearchABook.setFont(new Font("Tahoma", Font.BOLD, 20));
