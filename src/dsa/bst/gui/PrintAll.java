@@ -12,6 +12,7 @@ import javax.swing.JLabel;
 
 import java.awt.Font;
 
+import javax.swing.JOptionPane;
 import javax.swing.JTextField;
 import javax.swing.LayoutStyle.ComponentPlacement;
 import javax.swing.JButton;
@@ -27,6 +28,7 @@ import java.util.ArrayList;
 import java.util.Iterator;
 
 import dsa.bst.bookshop.*;
+
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 
@@ -46,7 +48,6 @@ public class PrintAll extends JFrame {
 					PrintAll frame = new PrintAll();
 					frame.setVisible(true);
 					
-					
 				} catch (Exception e) {
 					e.printStackTrace();
 				}
@@ -56,33 +57,40 @@ public class PrintAll extends JFrame {
 
 	/* View all books */
 	public static void ViewAllBooks(){
-		DefaultTableModel defaultTableModel = (DefaultTableModel)dgSearchedItems.getModel();
-		ArrayList<Book> bk = (ArrayList<Book>) Main.bookShopDatabase.printList();  
-		
-		for(int i=0; i<dgSearchedItems.getRowCount(); i++){
-			defaultTableModel.removeRow(i);
+		try{
+			DefaultTableModel defaultTableModel = (DefaultTableModel)dgSearchedItems.getModel();
+			ArrayList<Book> bk = (ArrayList<Book>) Main.bookShopDatabase.printList();  
+			
+			for(int i=0; i<dgSearchedItems.getRowCount(); i++){
+				defaultTableModel.removeRow(i);
+			}
+			
+			for(int i=0;i<bk.size();i++){
+				Book book = bk.get(i);
+				defaultTableModel.addRow(new String[]{book.getTitle(),book.getFirstName(),book.getSurName(),String.valueOf(book.getIsbn()),book.getCategory()});
+			}	
+		}catch(Exception ex){
+			JOptionPane.showMessageDialog(null,"No Book Found .. !!!" , "Not Found !!!" , JOptionPane.ERROR_MESSAGE);
 		}
-		
-		for(int i=0;i<bk.size();i++){
-			Book book = bk.get(i);
-			defaultTableModel.addRow(new String[]{book.getTitle(),book.getFirstName(),book.getSurName(),String.valueOf(book.getIsbn()),book.getCategory()});
-		}	
 	}
 	
 	/* View specific books */
 	public static void ViewAllBooks(String searchQuery){
-		DefaultTableModel defaultTableModel = (DefaultTableModel)dgSearchedItems.getModel();
-		ArrayList<Book> bk = (ArrayList<Book>) Main.bookShopDatabase.printList(searchQuery);  
-		
-		//for(int i=0; i<dgSearchedItems.getRowCount(); i++){
-			//defaultTableModel.removeRow(i);
+		try{
+			DefaultTableModel defaultTableModel = (DefaultTableModel)dgSearchedItems.getModel();
+			ArrayList<Book> bk = (ArrayList<Book>) Main.bookShopDatabase.printList(searchQuery);  
+			
+			
 			defaultTableModel.setRowCount(0);
-		//}
-		
-		for(int i=0;i<bk.size();i++){
-			Book book = bk.get(i);
-			defaultTableModel.addRow(new String[]{book.getTitle(),book.getFirstName(),book.getSurName(),String.valueOf(book.getIsbn()),book.getCategory()});
-		}	
+			
+			
+			for(int i=0;i<bk.size();i++){
+				Book book = bk.get(i);
+				defaultTableModel.addRow(new String[]{book.getTitle(),book.getFirstName(),book.getSurName(),String.valueOf(book.getIsbn()),book.getCategory()});
+			}
+		}catch(Exception ex){
+			JOptionPane.showMessageDialog(null,"No Book Found .. !!!" , "Not Found !!!" , JOptionPane.ERROR_MESSAGE);
+		}
 	}
 	
 	/**
@@ -115,7 +123,7 @@ public class PrintAll extends JFrame {
 		JButton btnSearch = new JButton("Search");
 		btnSearch.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
-				
+
 				if(txtSearch.getText().length() > 0){
 					ViewAllBooks(txtSearch.getText().trim());
 				}else{
