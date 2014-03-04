@@ -9,7 +9,9 @@ import javax.swing.border.EmptyBorder;
 import javax.swing.GroupLayout;
 import javax.swing.GroupLayout.Alignment;
 import javax.swing.JLabel;
+
 import java.awt.Font;
+
 import javax.swing.JTextField;
 import javax.swing.LayoutStyle.ComponentPlacement;
 import javax.swing.JButton;
@@ -17,11 +19,22 @@ import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.table.DefaultTableModel;
 
+import com.sun.xml.internal.bind.v2.schemagen.xmlschema.List;
+
+import java.awt.event.ActionListener;
+import java.awt.event.ActionEvent;
+import java.util.ArrayList;
+import java.util.Iterator;
+
+import dsa.bst.bookshop.*;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
+
 public class PrintAll extends JFrame {
 
 	private JPanel contentPane;
-	private JTextField textField;
-	private JTable dgSearchedItems;
+	private JTextField txtSearch;
+	private static JTable dgSearchedItems;
 
 	/**
 	 * Launch the application.
@@ -32,6 +45,8 @@ public class PrintAll extends JFrame {
 				try {
 					PrintAll frame = new PrintAll();
 					frame.setVisible(true);
+					
+					
 				} catch (Exception e) {
 					e.printStackTrace();
 				}
@@ -39,10 +54,48 @@ public class PrintAll extends JFrame {
 		});
 	}
 
+	/* View all books */
+	public static void ViewAllBooks(){
+		DefaultTableModel defaultTableModel = (DefaultTableModel)dgSearchedItems.getModel();
+		ArrayList<Book> bk = (ArrayList<Book>) Main.bookShopDatabase.printList();  
+		
+		for(int i=0; i<dgSearchedItems.getRowCount(); i++){
+			defaultTableModel.removeRow(i);
+		}
+		
+		for(int i=0;i<bk.size();i++){
+			Book book = bk.get(i);
+			defaultTableModel.addRow(new String[]{book.getTitle(),book.getFirstName(),book.getSurName(),String.valueOf(book.getIsbn()),book.getCategory()});
+		}	
+	}
+	
+	/* View specific books */
+	public static void ViewAllBooks(String searchQuery){
+		DefaultTableModel defaultTableModel = (DefaultTableModel)dgSearchedItems.getModel();
+		ArrayList<Book> bk = (ArrayList<Book>) Main.bookShopDatabase.printList(searchQuery);  
+		
+		//for(int i=0; i<dgSearchedItems.getRowCount(); i++){
+			//defaultTableModel.removeRow(i);
+			defaultTableModel.setRowCount(0);
+		//}
+		
+		for(int i=0;i<bk.size();i++){
+			Book book = bk.get(i);
+			defaultTableModel.addRow(new String[]{book.getTitle(),book.getFirstName(),book.getSurName(),String.valueOf(book.getIsbn()),book.getCategory()});
+		}	
+	}
+	
 	/**
 	 * Create the frame.
 	 */
 	public PrintAll() {
+		addWindowListener(new WindowAdapter() {
+			@Override
+			public void windowOpened(WindowEvent arg0) {
+				ViewAllBooks();
+			}
+		});
+		
 		setTitle("Print");
 		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		setBounds(100, 100, 504, 315);
@@ -56,10 +109,20 @@ public class PrintAll extends JFrame {
 		JLabel lblSearch = new JLabel("Search");
 		lblSearch.setFont(new Font("Tahoma", Font.PLAIN, 14));
 		
-		textField = new JTextField();
-		textField.setColumns(10);
+		txtSearch = new JTextField();
+		txtSearch.setColumns(10);
 		
 		JButton btnSearch = new JButton("Search");
+		btnSearch.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				
+				if(txtSearch.getText().length() > 0){
+					ViewAllBooks(txtSearch.getText().trim());
+				}else{
+					ViewAllBooks();
+				}
+			}
+		});
 		
 		JScrollPane scrollPane = new JScrollPane();
 		GroupLayout gl_contentPane = new GroupLayout(contentPane);
@@ -72,7 +135,7 @@ public class PrintAll extends JFrame {
 							.addGap(42)
 							.addComponent(lblSearch)
 							.addPreferredGap(ComponentPlacement.UNRELATED)
-							.addComponent(textField, GroupLayout.PREFERRED_SIZE, 287, GroupLayout.PREFERRED_SIZE))
+							.addComponent(txtSearch, GroupLayout.PREFERRED_SIZE, 287, GroupLayout.PREFERRED_SIZE))
 						.addGroup(gl_contentPane.createSequentialGroup()
 							.addGap(193)
 							.addComponent(btnSearch))
@@ -88,7 +151,7 @@ public class PrintAll extends JFrame {
 					.addGap(35)
 					.addGroup(gl_contentPane.createParallelGroup(Alignment.BASELINE)
 						.addComponent(lblSearch)
-						.addComponent(textField, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
+						.addComponent(txtSearch, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
 					.addPreferredGap(ComponentPlacement.UNRELATED)
 					.addComponent(btnSearch)
 					.addPreferredGap(ComponentPlacement.UNRELATED)
