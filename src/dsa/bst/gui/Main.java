@@ -11,6 +11,7 @@ import javax.swing.JLabel;
 import java.awt.Font;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
+import dsa.bst.bookshop.*;
 
 public class Main extends JFrame{
 
@@ -19,6 +20,8 @@ public class Main extends JFrame{
 	/**
 	 * Launch the application.
 	 */
+	public static BookShopDatabase bookShopDatabase = new BookShopDatabase();
+	
 	public static void main(String[] args) {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {

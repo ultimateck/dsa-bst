@@ -9,13 +9,22 @@ import javax.swing.border.EmptyBorder;
 import javax.swing.GroupLayout;
 import javax.swing.GroupLayout.Alignment;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
+
 import java.awt.Font;
+
 import javax.swing.JTextField;
 import javax.swing.LayoutStyle.ComponentPlacement;
 import javax.swing.JButton;
+
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
+
 import dsa.bst.bookshop.*;
+import dsa.bst.exceptions.FullTreeException;
+
+import javax.swing.JComboBox;
+import javax.swing.DefaultComboBoxModel;
 
 public class AddBook extends JFrame {
 
@@ -28,6 +37,7 @@ public class AddBook extends JFrame {
 	/**
 	 * Launch the application.
 	 */
+	JComboBox cmbCategory = new JComboBox();
 	public static void main(String[] args) {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
@@ -102,8 +112,9 @@ public class AddBook extends JFrame {
 				int numericReuired = 0;
 				
 				Book book = new Book();
-				book.setCategory("Not yet Set");
 				
+				book.setCategory(cmbCategory.getSelectedItem().toString());
+
 				if(txtBook.getText().length() > 0){
 					book.setTitle(txtBook.getText());
 				}else{
@@ -135,12 +146,18 @@ public class AddBook extends JFrame {
 				
 				if(mandatoryFeildCheck > 0){
 					
-					System.out.println("One or more feilds are missing");
+					JOptionPane.showMessageDialog(null,"One or More Feilds are Missing .. !!!" , "Required !!!" , JOptionPane.WARNING_MESSAGE);
 				}else if(mandatoryFeildCheck == 0){
 					if(numericReuired > 0){
-						System.out.println("Numeric Required For ISBN");
+						JOptionPane.showMessageDialog(null,"ISBN Should Be Numeric .. !!!" , "Numeric Required !!!" , JOptionPane.WARNING_MESSAGE);
 					}else{
-						System.out.println("You are Done !!!");
+						try {
+							Main.bookShopDatabase.insert(book);
+							JOptionPane.showMessageDialog(null,"Book Inserted Successfully .. !!!" , "Done !!!" , JOptionPane.INFORMATION_MESSAGE);
+						} catch (FullTreeException e) {
+							// TODO Auto-generated catch block
+							JOptionPane.showMessageDialog(null,"Book Store is Full .. !!!" , "Full !!!" , JOptionPane.ERROR_MESSAGE);
+						}
 					}
 				}
 				
@@ -148,15 +165,20 @@ public class AddBook extends JFrame {
 		});
 		
 		JButton btnClear = new JButton("Clear");
+		
+		
+		cmbCategory.setModel(new DefaultComboBoxModel(new String[] {"Not Set", "PHP", "Java"}));
+		
+		JLabel lblCategory = new JLabel("Category");
+		lblCategory.setFont(new Font("Tahoma", Font.PLAIN, 14));
 		GroupLayout gl_contentPane = new GroupLayout(contentPane);
 		gl_contentPane.setHorizontalGroup(
 			gl_contentPane.createParallelGroup(Alignment.TRAILING)
 				.addGroup(gl_contentPane.createSequentialGroup()
 					.addGroup(gl_contentPane.createParallelGroup(Alignment.LEADING)
-						.addComponent(lblAddBook)
 						.addGroup(gl_contentPane.createSequentialGroup()
-							.addGroup(gl_contentPane.createParallelGroup(Alignment.TRAILING)
-								.addGroup(Alignment.LEADING, gl_contentPane.createSequentialGroup()
+							.addGroup(gl_contentPane.createParallelGroup(Alignment.LEADING)
+								.addGroup(gl_contentPane.createSequentialGroup()
 									.addGroup(gl_contentPane.createParallelGroup(Alignment.LEADING)
 										.addGroup(gl_contentPane.createSequentialGroup()
 											.addGap(4)
@@ -168,17 +190,22 @@ public class AddBook extends JFrame {
 											.addGap(18)
 											.addComponent(txtBook, GroupLayout.PREFERRED_SIZE, 165, GroupLayout.PREFERRED_SIZE)))
 									.addPreferredGap(ComponentPlacement.RELATED)
-									.addGroup(gl_contentPane.createParallelGroup(Alignment.TRAILING)
+									.addGroup(gl_contentPane.createParallelGroup(Alignment.LEADING)
 										.addGroup(gl_contentPane.createSequentialGroup()
-											.addGap(22)
-											.addComponent(lblIsbn)
-											.addPreferredGap(ComponentPlacement.RELATED, 25, Short.MAX_VALUE)
-											.addComponent(txtISBN, GroupLayout.PREFERRED_SIZE, 179, GroupLayout.PREFERRED_SIZE))
-										.addGroup(Alignment.LEADING, gl_contentPane.createSequentialGroup()
 											.addGap(21)
 											.addComponent(lblLastName)
 											.addPreferredGap(ComponentPlacement.UNRELATED)
-											.addComponent(txtLastName, GroupLayout.DEFAULT_SIZE, 160, Short.MAX_VALUE))))
+											.addComponent(txtLastName, GroupLayout.DEFAULT_SIZE, 164, Short.MAX_VALUE))
+										.addGroup(Alignment.TRAILING, gl_contentPane.createSequentialGroup()
+											.addGap(22)
+											.addComponent(lblIsbn)
+											.addPreferredGap(ComponentPlacement.RELATED, 29, Short.MAX_VALUE)
+											.addGroup(gl_contentPane.createParallelGroup(Alignment.LEADING, false)
+												.addGroup(Alignment.TRAILING, gl_contentPane.createSequentialGroup()
+													.addComponent(lblCategory)
+													.addPreferredGap(ComponentPlacement.RELATED, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+													.addComponent(cmbCategory, GroupLayout.PREFERRED_SIZE, 110, GroupLayout.PREFERRED_SIZE))
+												.addComponent(txtISBN, Alignment.TRAILING, GroupLayout.PREFERRED_SIZE, 179, GroupLayout.PREFERRED_SIZE)))))
 								.addGroup(gl_contentPane.createSequentialGroup()
 									.addContainerGap()
 									.addComponent(btnAddBook, GroupLayout.PREFERRED_SIZE, 124, GroupLayout.PREFERRED_SIZE)
@@ -190,12 +217,18 @@ public class AddBook extends JFrame {
 							.addContainerGap()
 							.addComponent(lblAuthor)))
 					.addContainerGap())
+				.addGroup(Alignment.LEADING, gl_contentPane.createSequentialGroup()
+					.addComponent(lblAddBook)
+					.addContainerGap(399, Short.MAX_VALUE))
 		);
 		gl_contentPane.setVerticalGroup(
 			gl_contentPane.createParallelGroup(Alignment.LEADING)
 				.addGroup(gl_contentPane.createSequentialGroup()
-					.addComponent(lblAddBook)
-					.addGap(31)
+					.addGroup(gl_contentPane.createParallelGroup(Alignment.BASELINE)
+						.addComponent(lblAddBook)
+						.addComponent(cmbCategory, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
+						.addComponent(lblCategory))
+					.addGap(18)
 					.addGroup(gl_contentPane.createParallelGroup(Alignment.BASELINE)
 						.addComponent(lblBook)
 						.addComponent(txtBook, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
