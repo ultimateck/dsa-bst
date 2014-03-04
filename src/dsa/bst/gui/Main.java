@@ -62,6 +62,15 @@ public class Main extends JFrame{
 		});
 		
 		JButton btnDeleteABook = new JButton("Print");
+		btnDeleteABook.addActionListener(new ActionListener() {
+			/* (non-Javadoc)
+			 * @see java.awt.event.ActionListener#actionPerformed(java.awt.event.ActionEvent)
+			 */
+			public void actionPerformed(ActionEvent arg0) {
+				PrintAll printAll = new PrintAll();
+				printAll.setVisible(true);
+			}
+		});
 		
 		JButton btnSearchABook = new JButton("Search a Book");
 		btnSearchABook.addActionListener(new ActionListener() {
