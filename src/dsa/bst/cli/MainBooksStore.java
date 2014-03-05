@@ -33,7 +33,7 @@ public class MainBooksStore {
 							break;
 					case 2: mainBooksStore.Delete();
 							break;
-					case 3: System.out.println("Search a Book");
+					case 3: mainBooksStore.SearchBook();
 							break;
 					case 4: System.out.println("Print All Books");
 							break;
@@ -126,6 +126,80 @@ public class MainBooksStore {
 	
 	private void SearchBook(){
 		
+		System.out.println("Search a Book");
+		Scanner sc = new Scanner(System.in);
+		
+		System.out.println("1. Search by Book Name : ");
+		System.out.println("2. Search by Book ISBN : ");
+		
+		System.out.print("\n\nEnter Your Choice : ");
+		String userInput = sc.next();
+		
+		if(isNumeric(userInput)){
+			
+			switch(userInput){
+				
+				case "1": 	System.out.println("Search a Book By Name");
+							SearchBookByName();
+							break;
+				case "2": 	System.out.println("Search a Book By ISBN");
+							SearchBookByISBN();
+							break;
+				default: 	System.out.println("Not a valid input....");
+							break;
+			
+			}
+			
+		}else{
+			System.out.println("Not a valid input....");
+		}
+		
+	}
+	
+	private void SearchBookByName() {
+		Book book = new Book();
+		
+		System.out.print("\n+ Enter Your Book Name : ");
+		Scanner sc = new Scanner(System.in);
+		String bookTitle = sc.nextLine();
+		
+		try {
+			book = (Book) dsa.bst.gui.Main.bookShopDatabase.retrieve(bookTitle);
+			System.out.println("Book : "+book.getTitle());
+			System.out.println("ISBN : "+book.getIsbn());
+			System.out.println("First Name : "+book.getFirstName());
+			System.out.println("Last Name : "+book.getSurName());
+			System.out.println("Category : "+book.getCategory());
+		} catch (NotFoundException e) {
+			// TODO Auto-generated catch block
+			System.out.println("No Book Found ...!!!");
+		}
+	}
+	
+	private void SearchBookByISBN() {
+		Book book = new Book();
+		
+		System.out.print("\n+ Enter Your Book ISBN : ");
+		Scanner sc = new Scanner(System.in);
+		String bookISBN = sc.nextLine();
+		
+		while(!isNumeric(bookISBN)){
+			System.out.println("Not a valid ISBN ... Try Again ");
+			System.out.print("\n+ ISBN : ");
+			bookISBN = sc.next();
+		}
+		
+		try {
+			book = (Book) dsa.bst.gui.Main.bookShopDatabase.retrieve(Integer.parseInt(bookISBN));
+			System.out.println("Book : "+book.getTitle());
+			System.out.println("ISBN : "+book.getIsbn());
+			System.out.println("First Name : "+book.getFirstName());
+			System.out.println("Last Name : "+book.getSurName());
+			System.out.println("Category : "+book.getCategory());
+		} catch (NotFoundException e) {
+			// TODO Auto-generated catch block
+			System.out.println("No Book Found ...!!!");
+		}
 	}
 
 }
