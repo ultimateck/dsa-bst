@@ -183,7 +183,7 @@ public class MainBooksStore {
 		Scanner sc = new Scanner(System.in);
 		String bookISBN = sc.nextLine();
 		
-		while(!isNumeric(bookISBN)){
+		while(!isNumeric(bookISBN)){ // To check Numeric or Character..
 			System.out.println("Not a valid ISBN ... Try Again ");
 			System.out.print("\n+ ISBN : ");
 			bookISBN = sc.next();

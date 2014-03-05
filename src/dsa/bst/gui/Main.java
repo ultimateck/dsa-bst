@@ -8,10 +8,13 @@ import javax.swing.GroupLayout.Alignment;
 import javax.swing.JButton;
 import javax.swing.LayoutStyle.ComponentPlacement;
 import javax.swing.JLabel;
+
 import java.awt.Font;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
+
 import dsa.bst.bookshop.*;
+import dsa.bst.cli.MainBooksStore;
 
 public class Main extends JFrame{
 
@@ -91,6 +94,12 @@ public class Main extends JFrame{
 		
 		JLabel lblBooksStore = new JLabel("Books Store");
 		lblBooksStore.setFont(new Font("Tahoma", Font.BOLD, 15));
+		
+		JButton btnSwitchToCli = new JButton("Switch to CLI");
+		btnSwitchToCli.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+			}
+		});
 		GroupLayout groupLayout = new GroupLayout(frmBooksStore.getContentPane());
 		groupLayout.setHorizontalGroup(
 			groupLayout.createParallelGroup(Alignment.LEADING)
@@ -100,7 +109,8 @@ public class Main extends JFrame{
 							.addGap(65)
 							.addGroup(groupLayout.createParallelGroup(Alignment.TRAILING, false)
 								.addComponent(btnInsertABook, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-								.addComponent(btnSearchABook, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+								.addComponent(btnSearchABook, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+								.addComponent(btnSwitchToCli, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
 							.addGap(46)
 							.addGroup(groupLayout.createParallelGroup(Alignment.LEADING, false)
 								.addComponent(btnDeleteABook, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
@@ -123,7 +133,9 @@ public class Main extends JFrame{
 					.addGroup(groupLayout.createParallelGroup(Alignment.BASELINE)
 						.addComponent(btnSearchABook)
 						.addComponent(btnDeleteABook_1))
-					.addContainerGap(62, Short.MAX_VALUE))
+					.addPreferredGap(ComponentPlacement.RELATED, 35, Short.MAX_VALUE)
+					.addComponent(btnSwitchToCli)
+					.addGap(21))
 		);
 		frmBooksStore.getContentPane().setLayout(groupLayout);
 	}
